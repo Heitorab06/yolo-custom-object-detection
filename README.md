@@ -1,5 +1,11 @@
 # 🎯 Custom Object Detection with YOLOv8
 
+![Python](https://img.shields.io/badge/Python-3.10+-blue)
+![YOLOv8](https://img.shields.io/badge/YOLOv8-Ultralytics-red)
+![PyTorch](https://img.shields.io/badge/PyTorch-Deep%20Learning-orange)
+![CUDA](https://img.shields.io/badge/GPU-CUDA-green)
+![Status](https://img.shields.io/badge/Project-Completed-success)
+
 Projeto de detecção de objetos em tempo real utilizando **YOLOv8 (Ultralytics)** treinado em dataset próprio capturado via webcam.
 
 O objetivo foi:
@@ -14,9 +20,9 @@ O objetivo foi:
 
 ## 📦 Objetos Detectados
 
-- Bola
-- Celular
-- Garrafa
+- Bola  
+- Celular  
+- Garrafa  
 
 ---
 
@@ -42,7 +48,6 @@ Split: **70% treino / 20% validação / 10% teste**
 - ~100 imagens iniciais por classe  
 - Posteriormente adicionadas +75 imagens da classe **Celular**  
 - Anotação realizada via Roboflow  
-- Split: 70% treino / 20% validação / 10% teste  
 
 ---
 
@@ -50,8 +55,8 @@ Split: **70% treino / 20% validação / 10% teste**
 
 ### 🔹 Modelo 1 — YOLOv8n (Nano)
 
-- Dataset inicial  
-- 100 imagens por classe  
+- Dataset inicial (~303 imagens)
+- Modelo leve (~3M parâmetros)
 
 Resultados (Validation):
 
@@ -62,15 +67,18 @@ Resultados (Validation):
 | Garrafa  | 0.919 |
 | **All**  | **0.713** |
 
-📉 Observação:  
-Classe **Celular apresentou baixo desempenho**, indicando necessidade de mais dados.
+📉 A classe **Celular apresentou baixo desempenho**, indicando necessidade de maior diversidade de dados.
+
+#### PR Curve — YOLOv8n
+
+![PR Curve Nano](results/pr_curve_nano.png)
 
 ---
 
 ### 🔹 Modelo 2 — YOLOv8s (Small)
 
-- Dataset aumentado (+75 imagens de celular)  
-- Modelo maior (mais parâmetros)  
+- Dataset aumentado (379 imagens)
+- Modelo maior (~11M parâmetros)
 
 Resultados (Validation):
 
@@ -81,8 +89,11 @@ Resultados (Validation):
 | Garrafa  | 0.995 |
 | **All**  | **0.988** |
 
-📈 Observação:  
-O aumento de dados + modelo maior resultou em melhoria significativa na classe Celular.
+📈 O aumento de dados + modelo maior resultou em melhoria significativa na classe Celular.
+
+#### PR Curve — YOLOv8s
+
+![PR Curve Small](results/pr_curve_small.png)
 
 ---
 
@@ -95,18 +106,19 @@ O aumento de dados + modelo maior resultou em melhoria significativa na classe C
 | YOLOv8n | Dataset inicial   | 0.713 |
 | YOLOv8s | Dataset aumentado | 0.988 |
 
-## Conclusões
+## Principais Insights
 
-- Classes com menos variação sofrem overfitting rapidamente.  
-- Aumento de dados melhora drasticamente recall e precision.  
-- YOLOv8s captura melhor features complexas.  
-- mAP por classe é essencial para identificar gargalos.  
+- A classe Celular exigiu maior variação de dados.
+- Aumento de dataset impactou diretamente Precision e Recall.
+- YOLOv8s mostrou maior capacidade de generalização.
+- mAP por classe foi essencial para diagnosticar o gargalo.
+- Dados foram mais determinantes que apenas trocar o modelo.
 
 ---
 
 # ⚙️ Treinamento
 
-Treinamento realizado utilizando GPU.
+Treinamento realizado utilizando GPU (CUDA).
 
 ```python
 from ultralytics import YOLO
@@ -155,6 +167,9 @@ O modelo detecta múltiplos objetos simultaneamente em tempo real.
 ├── train.py
 ├── test_webcam.py
 ├── requirements.txt
+├── results/
+│   ├── pr_curve_nano.png
+│   └── pr_curve_small.png
 ├── .gitignore
 └── README.md
 ```
@@ -179,14 +194,8 @@ O modelo detecta múltiplos objetos simultaneamente em tempo real.
 - Testar YOLOv8m  
 - Adicionar mais variação de iluminação  
 - Implementar data augmentation manual  
-- Testar exportação para ONNX  
+- Exportar modelo para ONNX  
 - Deploy em aplicação web  
-
----
-
-# 📌 Observação
-
-Dataset disponibilizado via Roboflow (link acima).
 
 ---
 
@@ -194,8 +203,9 @@ Dataset disponibilizado via Roboflow (link acima).
 
 Este projeto demonstra:
 
-- Capacidade de construir dataset customizado  
-- Treinamento e avaliação de modelos  
-- Análise crítica de métricas  
-- Experiência prática com YOLO  
-- Aplicação real em tempo real  
+- Construção de dataset customizado  
+- Treinamento e avaliação de modelos de detecção  
+- Análise crítica de métricas por classe  
+- Comparação experimental entre arquiteturas  
+- Aplicação prática em tempo real  
+
