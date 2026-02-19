@@ -20,6 +20,20 @@ O objetivo foi:
 
 ---
 
+## 📂 Dataset
+
+O dataset foi criado e anotado utilizando **Roboflow**.
+
+🔗 Acesse aqui:  
+https://universe.roboflow.com/testando-yolo/my-first-project-8szjb/dataset/2
+
+Formato de exportação: **YOLOv8**  
+Número de classes: **3**  
+Total de imagens do dataset final: **379**  
+Split: **70% treino / 20% validação / 10% teste**
+
+---
+
 # 🧠 Metodologia
 
 ## 1️⃣ Coleta de Dados
@@ -172,7 +186,7 @@ O modelo detecta múltiplos objetos simultaneamente em tempo real.
 
 # 📌 Observação
 
-Dataset não incluído no repositório para manter leveza do projeto.
+Dataset disponibilizado via Roboflow (link acima).
 
 ---
 
