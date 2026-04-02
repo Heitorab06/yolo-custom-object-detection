@@ -62,10 +62,10 @@ Resultados (Validation):
 
 | Classe   | mAP@0.5 |
 |----------|----------|
-| Bola     | 0.964 |
-| Celular  | 0.256 |
-| Garrafa  | 0.919 |
-| **All**  | **0.713** |
+| Bola     | 0.861 |
+| Celular  | 0.316 |
+| Garrafa  | 0.986 |
+| **All**  | **0.721** |
 
 📉 A classe **Celular apresentou baixo desempenho**, indicando necessidade de maior diversidade de dados.
 
