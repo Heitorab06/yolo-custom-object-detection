@@ -6,68 +6,68 @@
 ![CUDA](https://img.shields.io/badge/GPU-CUDA-green)
 ![Status](https://img.shields.io/badge/Project-Completed-success)
 
-Projeto de detecção de objetos em tempo real utilizando **YOLOv8 (Ultralytics)** treinado em dataset próprio capturado via webcam.
+A real-time object detection project using **YOLOv8 (Ultralytics)** trained on a custom dataset collected via webcam.
 
-O objetivo foi:
+Key objectives:
 
-- Criar dataset personalizado
-- Treinar diferentes versões do YOLOv8
-- Comparar desempenho entre modelos
-- Analisar impacto do aumento de dados
-- Realizar inferência em tempo real via webcam
+- Build and annotate a custom dataset
+- Train different YOLOv8 architecture variants
+- Benchmark performance across model versions
+- Analyze the impact of data augmentation and dataset expansion
+- Perform low-latency real-time inference via webcam
 
 ---
 
-## 📦 Objetos Detectados
+## 📦 Detected Classes
 
-- Bola  
-- Celular  
-- Garrafa  
+- Ball (`Bola`)
+- Cellphone (`Celular`)
+- Bottle (`Garrafa`)
 
 ---
 
 ## 📂 Dataset
 
-O dataset foi criado e anotado utilizando **Roboflow**.
+The dataset was collected, labeled, and managed using **Roboflow**.
 
-🔗 Acesse aqui:  
+🔗 Access link:  
 https://universe.roboflow.com/testando-yolo/my-first-project-8szjb/dataset/2
 
-Formato de exportação: **YOLOv8**  
-Número de classes: **3**  
-Total de imagens do dataset final: **379**  
-Split: **70% treino / 20% validação / 10% teste**
+- **Export Format:** YOLOv8  
+- **Number of Classes:** 3  
+- **Final Dataset Size:** 379 images  
+- **Split:** 70% Train / 20% Validation / 10% Test  
 
 ---
 
-# 🧠 Metodologia
+# 🧠 Methodology
 
-## 1️⃣ Coleta de Dados
+## 1️⃣ Data Collection
 
-- Captura via webcam  
-- ~100 imagens iniciais por classe  
-- Posteriormente adicionadas +75 imagens da classe **Celular**  
-- Anotação realizada via Roboflow  
+- Image capture using a local webcam  
+- ~100 initial samples per class  
+- Subsequently added +75 images specifically for the **Cellphone** class  
+- Bounding box annotations created and verified in Roboflow  
 
 ---
 
-## 2️⃣ Modelos Treinados
+## 2️⃣ Trained Models
 
-### 🔹 Modelo 1 — YOLOv8n (Nano)
+### 🔹 Model 1 — YOLOv8n (Nano)
 
-- Dataset inicial (~303 imagens)
-- Modelo leve (~3M parâmetros)
+- Initial baseline dataset (~303 images)
+- Lightweight architecture (~3M parameters)
 
-Resultados (Validation):
+Validation Results:
 
-| Classe   | mAP@0.5 |
-|----------|----------|
-| Bola     | 0.861 |
-| Celular  | 0.316 |
-| Garrafa  | 0.986 |
-| **All**  | **0.721** |
+| Class | mAP@0.5 |
+| :--- | :---: |
+| Ball | 0.861 |
+| Cellphone | 0.316 |
+| Bottle | 0.986 |
+| **All** | **0.721** |
 
-📉 A classe **Celular apresentou baixo desempenho**, indicando necessidade de maior diversidade de dados.
+📉 The **Cellphone** class suffered from low initial performance, highlighting the need for higher sample diversity and feature variation.
 
 #### PR Curve — YOLOv8n
 
@@ -75,21 +75,21 @@ Resultados (Validation):
 
 ---
 
-### 🔹 Modelo 2 — YOLOv8s (Small)
+### 🔹 Model 2 — YOLOv8s (Small)
 
-- Dataset aumentado (379 imagens)
-- Modelo maior (~11M parâmetros)
+- Augmented dataset (379 images)
+- Higher capacity architecture (~11M parameters)
 
-Resultados (Validation):
+Validation Results:
 
-| Classe   | mAP@0.5 |
-|----------|----------|
-| Bola     | 0.995 |
-| Celular  | 0.975 |
-| Garrafa  | 0.995 |
-| **All**  | **0.988** |
+| Class | mAP@0.5 |
+| :--- | :---: |
+| Ball | 0.995 |
+| Cellphone | 0.975 |
+| Bottle | 0.995 |
+| **All** | **0.988** |
 
-📈 O aumento de dados + modelo maior resultou em melhoria significativa na classe Celular.
+📈 Combining targeted data augmentation with a higher-capacity model produced a substantial performance leap for the Cellphone class.
 
 #### PR Curve — YOLOv8s
 
@@ -97,115 +97,39 @@ Resultados (Validation):
 
 ---
 
-# 📊 Análise de Resultados
+# 📊 Results & Comparative Analysis
 
-## Comparação Geral
+## General Benchmark
 
-| Modelo  | Dataset            | mAP@0.5 (All) |
-|----------|-------------------|---------------|
-| YOLOv8n | Dataset inicial   | 0.713 |
-| YOLOv8s | Dataset aumentado | 0.988 |
+| Model | Dataset | mAP@0.5 (All) |
+| :--- | :--- | :---: |
+| **YOLOv8n** | Initial dataset (~303 imgs) | 0.713 |
+| **YOLOv8s** | Augmented dataset (379 imgs) | **0.988** |
 
-## Principais Insights
+## Key Insights
 
-- A classe Celular exigiu maior variação de dados.
-- Aumento de dataset impactou diretamente Precision e Recall.
-- YOLOv8s mostrou maior capacidade de generalização.
-- mAP por classe foi essencial para diagnosticar o gargalo.
-- Dados foram mais determinantes que apenas trocar o modelo.
+- The Cellphone class required greater visual diversity (angles, reflections, backgrounds).
+- Targeted dataset expansion directly improved both Precision and Recall curves.
+- YOLOv8s demonstrated superior generalization on complex bounding patterns.
+- Per-class mAP analysis proved essential for diagnosing performance bottlenecks.
+- Data curation and quantity were more impactful than model scaling alone.
 
 ---
 
-# ⚙️ Treinamento
+# ⚙️ Training
 
-Treinamento realizado utilizando GPU (CUDA).
+Model training executed on GPU via CUDA acceleration:
 
 ```python
 from ultralytics import YOLO
 
+# Load pre-trained weights
 model = YOLO("yolov8s.pt")
 
+# Train the model
 model.train(
     data="dataset/data.yaml",
     epochs=50,
     imgsz=640,
     device=0
 )
-```
-
----
-
-# 🎥 Inferência em Tempo Real
-
-Teste via webcam:
-
-```python
-from ultralytics import YOLO
-
-model = YOLO("runs/detect/trainX/weights/best.pt")
-model.predict(source=0, show=True)
-```
-
-O modelo detecta múltiplos objetos simultaneamente em tempo real.
-
----
-
-# 🛠 Tecnologias Utilizadas
-
-- Python  
-- YOLOv8 (Ultralytics)  
-- PyTorch  
-- OpenCV  
-- Roboflow  
-- GPU (CUDA)  
-
----
-
-# 📁 Estrutura do Projeto
-
-```
-├── train.py
-├── test_webcam.py
-├── requirements.txt
-├── results/
-│   ├── pr_curve_nano.png
-│   └── pr_curve_small.png
-├── .gitignore
-└── README.md
-```
-
----
-
-# 🎯 Principais Aprendizados
-
-- Pipeline completo de Object Detection  
-- Formato YOLO annotation  
-- IoU e Non-Maximum Suppression  
-- Precision, Recall e mAP  
-- Impacto do tamanho do modelo  
-- Impacto do aumento de dataset  
-- Comparação entre YOLOv8n e YOLOv8s  
-- Deploy simples para inferência local  
-
----
-
-# 🚀 Próximos Passos
-
-- Testar YOLOv8m  
-- Adicionar mais variação de iluminação  
-- Implementar data augmentation manual  
-- Exportar modelo para ONNX  
-- Deploy em aplicação web  
-
----
-
-# 💼 Relevância Profissional
-
-Este projeto demonstra:
-
-- Construção de dataset customizado  
-- Treinamento e avaliação de modelos de detecção  
-- Análise crítica de métricas por classe  
-- Comparação experimental entre arquiteturas  
-- Aplicação prática em tempo real  
-
